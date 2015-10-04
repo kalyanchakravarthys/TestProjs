@@ -1,0 +1,109 @@
+<!doctype <!DOCTYPE html>
+<html>
+<head>
+	<title>Projects</title>
+    
+    
+    <link href="..\assets\style\site.css" rel="stylesheet"/>
+    <link rel="stylesheet"  href="..\assets\style\kendo.common.min.css" />
+    <link rel="stylesheet"  href="..\assets\style\kendo.blueopal.min.css" />
+    
+    
+    <script src="..\assets\scripts\jquery-2.1.4.min.js"></script>
+    <script src="..\assets\scripts\moment-with-locales.js"></script>
+    <script src="..\assets\scripts\kendo.all.min.js"></script>
+    <script src="..\assets\scripts\knockout-3.3.0.js"></script>
+    <script src="..\assets\scripts\knockout.validation.min.js"></script>
+    <script src="..\assets\scripts\knockout-kendo.min.js"></script>
+    
+
+</head>
+<body>
+    <header  id="menu" data-bind="with: MenuViewModel">
+        <ul data-bind="kendoMenu: {}, foreach: Menus">
+            <li data-bind="click: ChangeView">
+                <span data-bind="text: Name">Task Manager</span>
+            </li>
+        </ul>
+    </header>
+    <section id="body">
+        <div id="subsecquence" data-bind="with: $root.MySubsecquence">
+	        <h3>Subsecquence Details</h3>
+            <ul class="NewTask">
+                <li>Enter the Secquence <span class="required">*</span></li>
+                <li><textarea rows="3" cols="25" data-bind="kendoMaskedTextBox: Seq" > </textarea></li>
+                <li>Enter the Subsecquence pattern <span class="required">*</span></li>
+                <li><input id="datepicker" data-bind="kendoMaskedTextBox: Subs" /><br/></li>
+                <li><button data-bind="kendoButton: {click:$root.FindCount}">Find no of occurances</button></li>
+            </ul>
+        </div>
+        
+        <div id="todoList" data-bind="with: $root.MyTask">
+            <div class="todoList">
+            <h3 data-bind="text: Action"></h3>
+            <ul class="NewTask">
+                <li>Enter Task Details <span class="required">*</span></li>
+                <li><textarea rows="3" cols="25" data-bind="kendoMaskedTextBox: TaskDesc" > </textarea></li>
+                <li>Completion Date</li>
+                <li><input id="datepicker" data-bind="kendoDatePicker: { value: CompletionDate, format: 'MM/dd/yyyy'}" /><br/></li>
+                <li data-bind="visible: TaskId() <= 0"><button data-bind="kendoButton: {click:$root.AddTask}">Add</button></li>
+                <li data-bind="visible: TaskId() > 0">
+                    <button data-bind="kendoButton: {click:$root.UpdateTask}">Update</button>
+                    <button data-bind="kendoButton: {click:$root.CancelUpdate}">Cancel</button>
+                </li>
+            </ul>
+            </div>
+            <div class="todoList">
+             <h3>Task List  <a href="#" data-bind="click:$root.ClearStorage" title="Clear all records from storage"><span class="k-icon k-i-cancel" style="padding-bottom:3px;float:right; margin-right: 20px;"></span></a></h3>                            
+            <ul data-bind="foreach: $root.MyTaskList" class="TaskList" >
+                <li data-bind="css: TaskStyle" class="TaskItem" style="position: relative" >                    
+                    <div class="TaskLable full-width">Details</div>   
+                    <div class="TaskDetails full-width" data-bind="text:TaskDesc"></div>
+                    <div class="TaskLable DateVal">Created At</div>
+                    <div class="TaskDetails DateVal" data-bind="text:CreatedAt"></div>
+                    <div class="TaskLable DateVal">Last Updated At</div>
+                    <div class="TaskDetails DateVal" data-bind="text:LastUpdatedAt"></div>
+                    <div class="TaskLable DateVal ">To be Completed before</div>
+                    <div class="TaskDetails DateVal" data-bind="text:CompletionDate"></div>
+                    <div class="TaskActions">
+                        <input type="checkbox" data-bind="checked: IsCompleted, click:$root.UpdateTask">
+                        <a href="#" data-bind="click:$root.EditTask"><span class="k-icon k-edit"></span></a>                            
+                        <a href="#" data-bind="click:$root.RemoveTask"><span class="k-icon k-delete"></span></a>
+                    </div>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </section>
+    <span id="notification" style="display: none;"></span>
+                    
+                    <script id="errorTemplate" type="text/x-kendo-template">
+                        <div class="wrong-pass" onclick="HideMesh()">
+                            <div class="notification-header">
+                                <span class="img"></span>
+                                    <div class="notification-title">#= title #</div>
+                            </div>
+                            <div class="notification-body">
+                                <p>#= message #</p>
+                            </div>
+                        </div>
+                    </script>
+
+                    <script id="successTemplate" type="text/x-kendo-template">
+                        <div class="upload-success" onclick="HideMesh()">
+                            <div class="notification-header">
+                                <span class="img"></span>
+                                    <div class="notification-title">#= title #</div>
+                            </div>
+                            <div class="notification-body">
+                                <p>#= message #</p>
+                            </div>
+                        </div>
+                    </script>
+    <script src="..\assets\scripts\menu.js"></script>
+    <script src="..\assets\scripts\todolist.js"></script>
+    <script src="..\assets\scripts\subs.js"></script>
+    <script src="..\assets\scripts\Common\CommonExtenders.js"></script>
+ 
+</body>
+</html>
