@@ -1,4 +1,10 @@
-var preferredDateFormat = "MM/DD/YYYY";
+var preferredDateFormat = "MM/DD/YYYY",
+errMsgLocalStorage = "This browser does not support saving data locally. Altough you can still add/edit/delete tasks, the data will not persist if you close the browser. For best experience, please try Google chrome!", 
+errMsgSave = "The task is be added to the list, altough it is not saved to the local storage.";
+errMsgUpdate = "The task is be updated in the list, altough it is not saved to the local storage.";
+errMsgDelete = "This task is deleted from the list, altough this action is not saved to the local storage.";
+errMsgClearStorage = "Clearing local storage is not necessary as we are not storing anything here!";
+
 var Task = function (data) {
     var self = this;
     self.TaskId = ko.observable(data ? data.TaskId : 0);
@@ -22,10 +28,15 @@ var Task = function (data) {
 
 var vm = function () {
     var TaskViewModel = function () {
-                var self = this;
+                var self = this;var savedTaskList;
                 self.MyTask = ko.observable(new Task(null));
-            var savedTaskList = localStorage.getItem("TaskList");
-            self.MyTaskList = ko.observableArray([]);
+                self.MyTaskList = ko.observableArray([]);
+                try{
+                	savedTaskList = localStorage.getItem("TaskList");
+                }
+                catch(ex){
+                	Notify(errMsgLocalStorage, "error");
+                }
             if(savedTaskList && savedTaskList.length >0){
                 for(i= 0; i< JSON.parse(savedTaskList).length; i++){
                     self.MyTaskList().push(new Task(JSON.parse(savedTaskList)[i]));
@@ -49,7 +60,9 @@ var vm = function () {
                     self.MyTaskList.notifySubscribers();
                     self.MyTask(new Task(null));
                     //Notify("Task added successfully!", "success");
-                    localStorage.setItem("TaskList", JSON.stringify(ko.toJS(self.MyTaskList())));
+                    SaveDataToLocalStorage("TaskList", ko.toJS(self.MyTaskList()), errMsgSave);
+                    var scrollHeight = $(".TaskItem:last-child").offset().top + $(".TaskItem:last-child").height();
+                    $('html, .TaskList').animate({scrollTop:scrollHeight}, 'slow');
                 }
                 else{
                     for(i= 0; i< errorCount; i++){
@@ -62,7 +75,7 @@ var vm = function () {
             self.RemoveTask = function(t){
                 self.MyTaskList.remove(t);
                 self.MyTaskList.notifySubscribers();
-                localStorage.setItem("TaskList", JSON.stringify(ko.toJS(self.MyTaskList())));
+                SaveDataToLocalStorage("TaskList", ko.toJS(self.MyTaskList()), errMsgDelete);
             }
             
             self.EditTask = function(t){
@@ -77,12 +90,11 @@ var vm = function () {
                         item.TaskDesc(t.TaskDesc());
                         item.CompletionDate(t.CompletionDate());
                         item.IsCompleted(t.IsCompleted());
-                        
                         return item;
                     }
                     
                 });
-                localStorage.setItem("TaskList", JSON.stringify(ko.toJS(self.MyTaskList())));
+                SaveDataToLocalStorage("TaskList", ko.toJS(self.MyTaskList()), errMsgUpdate);
                 self.MyTask(new Task(null));
             }
             
@@ -91,7 +103,7 @@ var vm = function () {
             }
             
            self.ClearStorage = function(){
-                localStorage.TaskList = "";
+                SaveDataToLocalStorage("TaskList", "", errMsgClearStorage);
                 location.reload();
            }
     };

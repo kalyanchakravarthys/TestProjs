@@ -14,6 +14,8 @@ ul{
     -webkit-margin-end: 0px;
     -webkit-padding-start: 0px;
 	border:0px solid black;
+	padding: 0px;
+	margin: 0px;
 }
 
 li{
@@ -135,6 +137,7 @@ Below code for kendo-ui/notification/templates
 .TaskList:hover{
 	transition: all 1s ease-in-out;
 	-webkit-transition: all 1s ease-in-out;
+	min-height:0%;
 	overflow: scroll;
 	overflow-x:hidden;
 }
