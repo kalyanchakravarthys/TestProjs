@@ -54,7 +54,10 @@
             </ul>
             </div>
             <div class="todoList">
-             <h3>Task List  <a href="#" data-bind="click:$root.ClearStorage" title="Clear all records from storage"><span class="k-icon k-i-cancel" style="padding-bottom:3px;float:right; margin-right: 20px;"></span></a></h3>                            
+             <h3>Task List  
+             <a href="#" data-bind="click:$root.ClearStorage" title="Clear all records from storage"><span class="k-icon k-i-cancel" style="padding-bottom:3px;float:right; margin-right: 0px;"></span></a>
+             <a href="#" data-bind="click:$root.SortTaskList" title="Toggle sort by last updated time"><span class="k-icon k-i-connector" style="padding-bottom:3px;float:right; margin-right: 5px;"></span></a>
+             </h3>                            
             <ul data-bind="foreach: $root.MyTaskList" class="TaskList" >
                 <li data-bind="css: TaskStyle, attr: { id: TaskId }" class="TaskItem" style="position: relative" >                    
                     <div class="TaskLable full-width">Details</div>   
