@@ -63,7 +63,8 @@ var vm = function () {
                     SaveDataToLocalStorage("TaskList", ko.toJS(self.MyTaskList()), errMsgSave);
                     var scrollHeight = $(".TaskItem:last-child").offset().top + $(".TaskItem:last-child").height();
                     $('html, .TaskList').animate({scrollTop:scrollHeight}, 'slow');
-                }
+                    Blink(".TaskItem:last-child", 1);
+                }	
                 else{
                     for(i= 0; i< errorCount; i++){
                         Notify(TaskErrors()[i], "error");        
@@ -95,7 +96,14 @@ var vm = function () {
                     
                 });
                 SaveDataToLocalStorage("TaskList", ko.toJS(self.MyTaskList()), errMsgUpdate);
+                var id = t.TaskId();
                 self.MyTask(new Task(null));
+                //Scroll and blink effect to be shown only for update button click, not for completed status update.
+                if(updatedT.TaskId == undefined){
+                	var scrollHeight = $(".TaskItem[id='" + id + "']").css("top") ; 
+             	   $('html, .TaskList').animate({ scrollTop: scrollHeight}, 'slow');
+                	Blink(".TaskItem[id='" + id + "']", 1);
+            	}
             }
             
             self.CancelUpdate = function(){

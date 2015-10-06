@@ -56,7 +56,7 @@
             <div class="todoList">
              <h3>Task List  <a href="#" data-bind="click:$root.ClearStorage" title="Clear all records from storage"><span class="k-icon k-i-cancel" style="padding-bottom:3px;float:right; margin-right: 20px;"></span></a></h3>                            
             <ul data-bind="foreach: $root.MyTaskList" class="TaskList" >
-                <li data-bind="css: TaskStyle" class="TaskItem" style="position: relative" >                    
+                <li data-bind="css: TaskStyle, attr: { id: TaskId }" class="TaskItem" style="position: relative" >                    
                     <div class="TaskLable full-width">Details</div>   
                     <div class="TaskDetails full-width" data-bind="text:TaskDesc"></div>
                     <div class="TaskLable DateVal">Created At</div>

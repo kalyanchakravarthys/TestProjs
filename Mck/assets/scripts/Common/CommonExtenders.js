@@ -793,5 +793,18 @@ var isIE = /*@cc_on!@*/false || !!document.documentMode;   // At least IE6
 if(isIE){
     //IE doesn't support scroll on hover, so setting scroll initially.
     $(".TaskList").css("overflow-y", "scroll");
+    $("body").css("overflow-y", "scroll");
 }
 //------------------------------------------------------------------------------------------------------------------------------------
+
+
+function Blink(selector, count){
+    $(selector).fadeOut('slow', function(){
+    $(this).fadeIn('slow', function(){
+        if(count > 0){
+            count = count - 1;
+            Blink(this, count);
+        }
+    });
+});
+}
