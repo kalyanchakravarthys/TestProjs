@@ -30,7 +30,7 @@ var Task = function (data) {
 
 var vm = function () {
     var TaskViewModel = function () {
-                var self = this;var savedTaskList;
+                var self = this;var savedTaskList, savedSortOrder, savedSortStyle;
                 self.MyTask = ko.observable(new Task(null));
                 self.MyTaskList = ko.observableArray([]);
                 self.SortOrder = ko.observable(1);
